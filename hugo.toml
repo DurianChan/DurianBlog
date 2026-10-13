@@ -37,12 +37,15 @@ head = ['custom/favicon.html']
 [params.author]
 name = 'DurianChan'
 link = 'https://github.com/DurianChan'
+avatar = 'images/avatar.jpg'
 
 [params.header.title]
 name = 'DurianBlog'
 
 [params.home.profile]
 enable = true
+avatarURL = 'images/avatar.jpg'
+avatarMenu = 'about'
 title = 'DurianBlog'
 subtitle = '记录技术、生活与灵感'
 typeit = true
