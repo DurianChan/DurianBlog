@@ -1,0 +1,58 @@
+locale: zh_Hans
+backend:
+  name: git-gateway
+local_backend:
+  url: http://localhost:8081/api/v1
+publish_mode: simple
+site_url: http://localhost:1315/DurianBlog/
+display_url: http://localhost:1315/DurianBlog/
+media_folder: static/images/uploads
+public_folder: /DurianBlog/images/uploads
+slug:
+  encoding: unicode
+  clean_accents: false
+collections:
+  - name: posts
+    label: 文章
+    label_singular: 文章
+    folder: content/posts
+    path: '{{slug}}/index'
+    create: true
+    delete: true
+    extension: md
+    format: yaml-frontmatter
+    media_folder: ''
+    public_folder: ''
+    preview_path: 'posts/{{slug}}/'
+    summary: '{{title}} · {{date}}'
+    sortable_fields: [date, title]
+    fields:
+      - { label: 标题, name: title, widget: string }
+      - { label: 发布时间, name: date, widget: datetime, format: 'YYYY-MM-DDTHH:mm:ssZ', date_format: 'YYYY-MM-DD', time_format: 'HH:mm', picker_utc: false }
+      - { label: 草稿（开启后不发布到线上）, name: draft, widget: boolean, default: true, required: false }
+      - { label: 简介, name: description, widget: text, required: false }
+      - { label: 分类, name: categories, widget: list, required: false, default: [] }
+      - { label: 标签, name: tags, widget: list, required: false, default: [] }
+      - { label: 正文, name: body, widget: markdown, hint: '保存只修改本地文件；提交并推送 GitHub 后才会更新线上博客。图片可直接上传。' }
+  - name: pages
+    label: 固定页面
+    delete: false
+    files:
+      - name: about
+        label: 关于
+        file: content/about/index.md
+        fields:
+          - { label: 标题, name: title, widget: string }
+          - { label: 日期, name: date, widget: datetime, required: false }
+          - { label: 评论, name: comment, widget: boolean, default: false }
+          - { label: 大纲, name: toc, widget: boolean, default: false }
+          - { label: 正文, name: body, widget: markdown }
+      - name: guestbook
+        label: 留言板介绍
+        file: content/guestbook/index.md
+        fields:
+          - { label: 标题, name: title, widget: string }
+          - { label: 日期, name: date, widget: datetime, required: false }
+          - { label: 评论, name: comment, widget: boolean, default: true }
+          - { label: 大纲, name: toc, widget: boolean, default: false }
+          - { label: 正文, name: body, widget: markdown }

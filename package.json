@@ -1,0 +1,14 @@
+{
+  "devDependencies": {
+    "decap-cms": "3.16.3",
+    "decap-server": "3.11.3"
+  },
+  "scripts": {
+    "editor": "node scripts/editor.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "name": "durian-blog",
+  "private": true
+}
