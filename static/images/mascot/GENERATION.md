@@ -11,4 +11,3 @@ Create a production-ready transparent sprite atlas for a small blog mascot based
 ## Refinement prompt
 
 undefined
-
