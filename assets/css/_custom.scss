@@ -1,0 +1,27 @@
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, .single .single-title {
+  font-weight: 600;
+}
+
+.single .content {
+  font-size: 1.125rem;
+  line-height: 1.8;
+
+  // Keep links recognizable when switching from blue to monochrome.
+  a:not(.header-mark) {
+    text-decoration: underline;
+    text-underline-offset: .15em;
+  }
+}
+
+// FixIt also uses semantic secondary colors for dates and article metadata.
+:root {
+  --fi-secondary: var(--fi-global-font-secondary-color);
+}
+[data-theme='dark'] {
+  --fi-secondary: var(--fi-global-font-secondary-color);
+}

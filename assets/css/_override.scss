@@ -1,0 +1,49 @@
+// Paper demo (https://hugo-paper.vercel.app/): linen background,
+// black/white text, and an 85% black overlay in dark mode.
+$global-background-color: #faf8f1;
+$global-background-color-dark: mix(#000, #faf8f1, 85%);
+$global-font-color: #000;
+$global-font-color-dark: #fff;
+$global-font-secondary-color: rgba(#000, .6);
+$global-font-secondary-color-dark: rgba(#fff, .6);
+$global-placeholder-color: rgba(#000, .5);
+$global-placeholder-color-dark: rgba(#fff, .5);
+$global-link-color: #000;
+$global-link-color-dark: #fff;
+$global-link-hover-color: rgba(#000, .6);
+$global-link-hover-color-dark: rgba(#fff, .6);
+$global-border-color: #e1dfd9;
+$global-border-color-dark: #51504e;
+$header-background-color: $global-background-color;
+$header-background-color-dark: $global-background-color-dark;
+$menu-active-color: #000;
+$menu-active-color-dark: #fff;
+$menu-border-color: rgba(#000, .1);
+$menu-border-color-dark: rgba(#fff, .15);
+$search-background-color: #eeece5;
+$search-background-color-dark: #31302f;
+$single-link-color: #000;
+$single-link-color-dark: #fff;
+$single-link-hover-color: rgba(#000, .6);
+$single-link-hover-color-dark: rgba(#fff, .6);
+$tag-cloud-start: #777670;
+$tag-cloud-end: #000;
+$tag-cloud-start-dark: #aaa9a8;
+$tag-cloud-end-dark: #fff;
+$table-background-color: $global-background-color;
+$table-background-color-dark: $global-background-color-dark;
+$table-thead-color: $search-background-color;
+$table-thead-color-dark: $search-background-color-dark;
+$blockquote-color: #000;
+$blockquote-color-dark: #fff;
+$selection-color: rgba(#000, .12);
+$selection-color-dark: rgba(#fff, .2);
+$code-color: #000;
+$code-color-dark: #fff;
+$code-background-color: $search-background-color;
+$code-background-color-dark: $search-background-color-dark;
+
+// Same system-font stack as Paper; the browser supplies local CJK fallback.
+$global-font-family: ui-sans-serif, -apple-system, "Segoe UI", Roboto, Ubuntu, Cantarell, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+$header-title-font-family: $global-font-family;
+$code-font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;

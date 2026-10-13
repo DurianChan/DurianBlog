@@ -72,3 +72,9 @@ description: "一句话介绍文章"
 giscus 使用当前仓库的 `Announcements` Discussion 分类。管理评论请前往仓库 Discussions。仓库需保持公开、启用 Discussions，并给 [giscus GitHub App](https://github.com/apps/giscus) 保留此仓库的访问权限。配置中的 repoId/categoryId 是公开标识，不是密钥。
 
 当前保留 FixIt 原生搜索结果和交互动效；自定义搜索结果卡片、主页版式和 Paper 风格动效可在后续迭代中调整。
+
+## 配色与字体
+
+背景和黑白文字参考 [Paper 演示站](https://hugo-paper.vercel.app/)（2026-10-13）：浅色背景 `#faf8f1`，深色背景为其叠加 85% 黑色后的 `#262524`，正文分别使用黑色和白色。使用 Paper 的系统无衬线字体栈，具体字形由设备已有字体决定，中文由浏览器自动回退；正文为 18px、1.8 倍行高。
+
+`assets/css/_override.scss` 定义配色及字体，`assets/css/_custom.scss` 定义排版细节，`static/css/giscus-paper-*.css` 为评论区提供对应配色。通过 FixIt 扩展点加载，未修改主题源码。若更换域名或部署路径，请同步更新 `hugo.toml` 中的 giscus 样式地址。

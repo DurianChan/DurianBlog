@@ -27,6 +27,10 @@ dateFormat = '2006-01-02'
 title = 'DurianBlog'
 noFavicon = true
 
+[params.app.themeColor]
+light = '#faf8f1'
+dark = '#262524'
+
 [params.customPartials]
 head = ['custom/favicon.html']
 
@@ -75,8 +79,8 @@ reactionsEnabled = '1'
 emitMetadata = '0'
 inputPosition = 'top'
 lang = 'zh-CN'
-lightTheme = 'light'
-darkTheme = 'dark'
+lightTheme = 'https://durianchan.github.io/DurianBlog/css/giscus-paper-light.css'
+darkTheme = 'https://durianchan.github.io/DurianBlog/css/giscus-paper-dark.css'
 lazyLoad = true
 
 [[menus.main]]
