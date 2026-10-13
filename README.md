@@ -97,6 +97,8 @@ npm run editor
 
 ## 网站配置
 
+全站左下角显示本地音乐播放器，默认收起歌单，点击播放，按配置顺序播放并循环。MP3 放在 `static/music/`，在 `hugo.toml` 中通过 `[[params.music.tracks]]` 配置每首歌的 `name`、`artist`、`url`（例如 `music/example.mp3`），可选 `cover`。`[params.music]` 的 `enable = false` 可关闭播放器。播放器复用 FixIt 的 APlayer 和暗色样式，音乐随站点部署，无需音乐平台接口。普通页面跳转会重新加载播放器。
+
 - `hugo.toml`：站点标题、介绍、导航、搜索、右侧大纲、giscus。
 - `content/posts/`：文章（Markdown）。
 - `content/about/index.md`：关于页面。

@@ -34,6 +34,27 @@ dark = '#262524'
 [params.customPartials]
 head = ['custom/favicon.html']
 assets = ['custom/mascot.html']
+widgets = ['custom/music.html']
+
+[params.music]
+enable = true
+theme = '#a98b62'
+volume = 0.5
+
+[[params.music.tracks]]
+name = '不潮不用花钱'
+artist = '林俊杰'
+url = 'music/jj-lin-bu-chao-bu-yong-hua-qian.mp3'
+
+[[params.music.tracks]]
+name = '才二十三'
+artist = '方大同'
+url = 'music/khalil-fong-cai-er-shi-san.mp3'
+
+[[params.music.tracks]]
+name = '我要爱死方大同'
+artist = '林海峰'
+url = 'music/jan-lamb-wo-yao-ai-si-fang-da-tong.mp3'
 
 [params.author]
 name = 'DurianChan'

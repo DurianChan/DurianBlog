@@ -46,3 +46,11 @@ h1, h2, h3, .single .single-title {
   border-color: var(--fi-global-border-color);
 }
 .comment-content { white-space: pre-line; }
+
+// Leave space above the fixed music controls for the desktop mascot.
+body:has(#global-music) {
+  #blog-mascot,
+  #mascot-restore {
+    bottom: 90px;
+  }
+}

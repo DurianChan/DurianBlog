@@ -1,0 +1,17 @@
+{{- with .Site.Params.music -}}
+  {{- if .enable -}}
+    {{- $.Store.Set "hasAplayer" true -}}
+    {{- $audio := slice -}}
+    {{- range .tracks -}}
+      {{- $track := dict "name" .name "artist" .artist "url" (.url | relURL) -}}
+      {{- with .cover -}}
+        {{- $track = merge $track (dict "cover" (. | relURL)) -}}
+      {{- end -}}
+      {{- $audio = $audio | append $track -}}
+    {{- end -}}
+    {{- $options := dict "fixed" true "autoplay" false "listFolded" true "listMaxHeight" "240px" "loop" "all" "order" "list" "preload" "none" "mutex" true "theme" .theme "volume" .volume "storageName" "durianblog-music" -}}
+    <div id="global-music" aria-label="音乐播放器">
+      <div class="aplayer-shortcode" data-audio="{{ $audio | jsonify }}" data-options="{{ $options | jsonify }}"></div>
+    </div>
+  {{- end -}}
+{{- end -}}
