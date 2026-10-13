@@ -5,12 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex,nofollow">
   <title>DurianBlog · 本地文章管理</title>
+  <link rel="stylesheet" href="./publish.css">
 </head>
 <body>
   <noscript>请启用 JavaScript 以使用文章编辑器。</noscript>
+  <button id="publish-github" type="button">发布到 GitHub</button>
+  <dialog id="publish-dialog" aria-labelledby="publish-title">
+    <h2 id="publish-title">发布到 GitHub</h2>
+    <p>请先在编辑器中保存文章。这里会同步所有已保存的文章、页面和图片改动。</p>
+    <p>草稿和未来日期文章会同步到仓库，但不会显示在正式博客中。</p>
+    <p id="publish-status" role="status"></p>
+    <ul id="publish-files"></ul>
+    <p id="publish-extra"></p>
+    <a id="publish-actions" href="https://github.com/DurianChan/DurianBlog/actions" target="_blank" rel="noopener" hidden>查看网站部署进度</a>
+    <div class="publish-controls">
+      <button id="publish-close" type="button">关闭</button>
+      <button id="publish-confirm" type="button" disabled>确认并推送</button>
+    </div>
+  </dialog>
   <script src="./decap-cms.js"></script>
   <script>
     CMS.registerPreviewStyle('./preview.css');
   </script>
+  <script src="./publish.js"></script>
 </body>
 </html>

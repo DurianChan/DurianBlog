@@ -1,0 +1,19 @@
+#publish-github {
+  position: fixed; right: 24px; bottom: 24px; z-index: 10000;
+  background: #222; color: #fff; border: 0; border-radius: 10px;
+  padding: 14px 20px; font: 600 15px system-ui; cursor: pointer;
+  box-shadow: 0 3px 16px #0003;
+}
+#publish-dialog {
+  width: min(600px, calc(100vw - 48px)); max-height: 80vh; overflow: auto;
+  box-sizing: border-box; border: 1px solid #dedbd2; border-radius: 14px;
+  background: #faf8f1; color: #111; padding: 24px; font: 15px/1.6 system-ui;
+}
+#publish-dialog::backdrop { background: #0008; }
+#publish-dialog h2 { margin-top: 0; }
+#publish-files { max-height: 230px; overflow: auto; padding-left: 24px; overflow-wrap: anywhere; }
+#publish-status { white-space: pre-wrap; overflow-wrap: anywhere; font-weight: 600; }
+.publish-controls { display: flex; justify-content: flex-end; gap: 12px; margin-top: 20px; }
+.publish-controls button { padding: 10px 16px; border: 1px solid #ccc; border-radius: 8px; cursor: pointer; }
+#publish-confirm { background: #222; color: #fff; }
+#publish-confirm:disabled { opacity: .5; cursor: default; }

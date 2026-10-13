@@ -33,7 +33,7 @@ collections:
       - { label: 简介, name: description, widget: text, required: false }
       - { label: 分类, name: categories, widget: list, required: false, default: [] }
       - { label: 标签, name: tags, widget: list, required: false, default: [] }
-      - { label: 正文, name: body, widget: markdown, hint: '保存只修改本地文件；提交并推送 GitHub 后才会更新线上博客。图片可直接上传。' }
+      - { label: 正文, name: body, widget: markdown, hint: '先点击“发布”保存到本地，再点击右下角“发布到 GitHub”同步上线。图片可直接上传。' }
   - name: pages
     label: 固定页面
     delete: false

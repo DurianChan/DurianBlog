@@ -4,6 +4,7 @@ import { spawn } from 'node:child_process';
 import { existsSync, createReadStream } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import { createPublisher, systemProxy } from './publisher.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const adminURL = 'http://localhost:1314/admin/';
@@ -57,19 +58,23 @@ try {
   const proxy = path.join(root, 'node_modules/decap-server/dist/index.js');
   if (!existsSync(cms) || !existsSync(proxy)) throw new Error('Dependencies missing. Run npm ci, then start again.');
   for (const port of [1315, 1314, 8081]) await checkPort(port);
+  const publisher = createPublisher(root, { proxy: await systemProxy() });
 
   const files = new Map([
     ['/admin/', [path.join(root, 'local-admin/index.html'), 'text/html; charset=utf-8']],
     ['/admin/config.yml', [path.join(root, 'local-admin/config.yml'), 'text/yaml; charset=utf-8']],
     ['/admin/preview.css', [path.join(root, 'local-admin/preview.css'), 'text/css; charset=utf-8']],
+    ['/admin/publish.js', [path.join(root, 'local-admin/publish.js'), 'text/javascript; charset=utf-8']],
+    ['/admin/publish.css', [path.join(root, 'local-admin/publish.css'), 'text/css; charset=utf-8']],
     ['/admin/decap-cms.js', [cms, 'text/javascript; charset=utf-8']],
   ]);
-  server = http.createServer((req, res) => {
+  server = http.createServer(async (req, res) => {
     if (!['localhost:1314', '127.0.0.1:1314'].includes(req.headers.host)) {
       res.writeHead(403).end(); return;
     }
-    if (!['GET', 'HEAD'].includes(req.method)) { res.writeHead(405).end(); return; }
     const pathname = new URL(req.url, adminURL).pathname;
+    if (await publisher.handle(req, res, pathname)) return;
+    if (!['GET', 'HEAD'].includes(req.method)) { res.writeHead(405).end(); return; }
     if (pathname === '/' || pathname === '/admin') { res.writeHead(302, { Location: '/admin/' }).end(); return; }
     const file = files.get(pathname);
     if (!file) { res.writeHead(404).end('Not found'); return; }
@@ -90,7 +95,7 @@ try {
     waitFor('http://localhost:8081/api/v1', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'info' }) }),
     waitFor('http://localhost:1315/DurianBlog/'),
   ]);
-  console.log(`\nEditor:  ${adminURL}\nPreview: http://localhost:1315/DurianBlog/\nSaves stay local. Use GitHub Desktop to commit and push when ready.\nPress Ctrl+C to stop all services.\n`);
+  console.log(`\nEditor:  ${adminURL}\nPreview: http://localhost:1315/DurianBlog/\nSave locally, then use the Publish to GitHub button in the editor.\nPress Ctrl+C to stop all services.\n`);
   if (process.platform === 'win32' && !process.argv.includes('--no-open')) {
     const browser = spawn('explorer.exe', [adminURL], { windowsHide: true, stdio: 'ignore' });
     browser.on('error', () => console.log(`Open ${adminURL} in your browser.`));
