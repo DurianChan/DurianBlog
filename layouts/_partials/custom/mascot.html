@@ -1,0 +1,14 @@
+<link rel="stylesheet" href="{{ "css/blog-mascot.css" | relURL }}">
+<aside id="blog-mascot" aria-label="博客宠物" hidden>
+  <p id="mascot-message" role="status" hidden></p>
+  <button id="mascot-character" type="button" aria-label="和宠物互动，按住可拖动">
+    <canvas id="mascot-canvas" width="256" height="256">蓝发女仆宠物</canvas>
+  </button>
+  <div class="mascot-tools">
+    <button type="button" id="mascot-wave" aria-label="让宠物打招呼" title="打招呼">👋</button>
+    <button type="button" id="mascot-rest" aria-label="让宠物休息" title="休息">☾</button>
+    <button type="button" id="mascot-hide" aria-label="隐藏宠物" title="隐藏">×</button>
+  </div>
+</aside>
+<button id="mascot-restore" type="button" hidden>显示宠物</button>
+<script defer src="{{ "js/blog-mascot.js" | relURL }}" data-sprite="{{ "images/mascot/deepseek-atlas.png" | relURL }}" data-frames="{{ "images/mascot/frames.json" | relURL }}"></script>

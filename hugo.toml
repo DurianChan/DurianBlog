@@ -33,7 +33,7 @@ dark = '#262524'
 
 [params.customPartials]
 head = ['custom/favicon.html']
-assets = ['custom/live2d.html']
+assets = ['custom/mascot.html']
 
 [params.author]
 name = 'DurianChan'

@@ -126,10 +126,15 @@ giscus 使用当前仓库的 `Announcements` Discussion 分类。管理评论请
 
 默认只显示评论，音乐播放器需额外设置 `player="true"`，且依赖第三方 Meting 服务；其可用性及歌曲能否播放由外部服务决定。评论接口暂时不可用时，会显示重试提示。
 
-Live2D 已全站启用，位于桌面左下角，窄屏（小于 1024px）隐藏以避免遮挡文章。悬停时可切换模型、截图或关闭；关闭后可通过侧边“看板娘”按钮恢复。模型和运行库均从博客自身加载，不依赖外部模型 API。
+原 Live2D 已替换为同款蓝发女仆的逐帧动画宠物。它位于桌面左下角，窄屏（小于 1024px）隐藏以避免遮挡文章。包含待机眨眼、挥手、开心、休息四组动作：点击角色可互动，按住可拖动；悬停或键盘聚焦后可通过按钮打招呼、休息或隐藏。隐藏后用左下角“显示宠物”按钮恢复。
 
-大小和位置在 `layouts/_partials/custom/live2d.html` 中配置。因已全站启用，无需再向文章插入 `plugins-live2d` 短代码；如以后改为单页启用，去掉 `hugo.toml` 的 `customPartials.assets` 中该项，再在页面中添加：
+新角色使用透明 PNG 图集和 Canvas 播放，属于逐帧动画，不是 Live2D 骨骼模型。遵循系统减少动态效果的设置，页面切到后台时暂停动画。素材完全从本博客加载。
 
-```text
-{{< plugins-live2d width="200" height="220" position="left:12" >}}
-```
+- `static/images/mascot/deepseek-atlas.png`：新绘制的 4×4、16 帧动画图集。
+- `static/images/mascot/frames.json`：每帧的裁切范围，播放时统一角色大小和脚底位置。
+- `static/images/mascot/GENERATION.md`：参考来源与绘图提示词。
+- `layouts/_partials/custom/mascot.html`：角色入口。
+- `static/js/blog-mascot.js`：动作、点击、拖动与隐藏逻辑。
+- `static/css/blog-mascot.css`：显示位置和尺寸（默认 180px）。
+
+原 Live2D 动画文件仍位于 `themes/plugins-live2d/static/live2d-widget/model/`，原入口保留在 `layouts/_partials/custom/live2d.html`。如需恢复，将 `hugo.toml` 中的 `customPartials.assets` 改回 `['custom/live2d.html']`。
