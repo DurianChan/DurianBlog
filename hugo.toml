@@ -1,0 +1,92 @@
+baseURL = 'https://durianchan.github.io/DurianBlog/'
+title = 'DurianBlog'
+theme = 'fixit-release'
+defaultContentLanguage = 'zh-cn'
+languageCode = 'zh-CN'
+languageName = '简体中文'
+hasCJKLanguage = true
+enableRobotsTXT = true
+enableEmoji = true
+enableGitInfo = false
+mainSections = ['posts']
+
+[params]
+version = '0.4.X'
+description = '记录技术、生活与灵感'
+defaultTheme = 'auto'
+dateFormat = '2006-01-02'
+
+[params.author]
+name = 'DurianChan'
+link = 'https://github.com/DurianChan'
+
+[params.header.title]
+name = 'DurianBlog'
+
+[params.home.profile]
+enable = true
+title = 'DurianBlog'
+subtitle = '记录技术、生活与灵感'
+typeit = true
+social = true
+
+[params.social]
+GitHub = 'DurianChan'
+RSS = true
+
+[params.search]
+enable = true
+type = 'fuse'
+contentLength = 10000
+placeholder = '搜索文章标题或内容'
+
+[params.page.toc]
+enable = true
+keepStatic = false
+auto = false
+position = 'right'
+
+[params.page.comment]
+enable = true
+
+[params.page.comment.giscus]
+enable = true
+repo = 'DurianChan/DurianBlog'
+repoId = 'R_kgDOVHAQWA'
+category = 'Announcements'
+categoryId = 'DIC_kwDOVHAQWM4DITYT'
+mapping = 'pathname'
+strict = '0'
+reactionsEnabled = '1'
+emitMetadata = '0'
+inputPosition = 'top'
+lang = 'zh-CN'
+lightTheme = 'light'
+darkTheme = 'dark'
+lazyLoad = true
+
+[[menus.main]]
+identifier = 'archives'
+name = '文章'
+url = '/archives/'
+weight = 1
+[[menus.main]]
+identifier = 'categories'
+name = '分类'
+url = '/categories/'
+weight = 2
+[[menus.main]]
+identifier = 'tags'
+name = '标签'
+url = '/tags/'
+weight = 3
+[[menus.main]]
+identifier = 'guestbook'
+name = '留言板'
+url = '/guestbook/'
+weight = 4
+[[menus.main]]
+identifier = 'about'
+name = '关于'
+url = '/about/'
+weight = 5
