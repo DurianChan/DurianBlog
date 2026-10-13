@@ -7,6 +7,20 @@ h1, h2, h3, .single .single-title {
   font-weight: 600;
 }
 
+// Make homepage excerpts easier to read while keeping titles prominent.
+.home.posts .summary .content {
+  color: rgba(#000, .75);
+
+  [data-theme='dark'] & {
+    color: rgba(#fff, .8);
+  }
+
+  b,
+  strong {
+    color: inherit;
+  }
+}
+
 .single .content {
   font-size: 1.125rem;
   line-height: 1.8;
