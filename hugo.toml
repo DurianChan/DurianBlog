@@ -23,6 +23,13 @@ description = '记录技术、生活与灵感'
 defaultTheme = 'auto'
 dateFormat = '2006-01-02'
 
+[params.app]
+title = 'DurianBlog'
+noFavicon = true
+
+[params.customPartials]
+head = ['custom/favicon.html']
+
 [params.author]
 name = 'DurianChan'
 link = 'https://github.com/DurianChan'
