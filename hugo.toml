@@ -10,6 +10,13 @@ enableEmoji = true
 enableGitInfo = false
 mainSections = ['posts']
 
+[outputs]
+home = ['html', 'rss', 'archives', 'search']
+page = ['html', 'markdown']
+section = ['html', 'rss']
+taxonomy = ['html']
+term = ['html', 'rss']
+
 [params]
 version = '0.4.X'
 description = '记录技术、生活与灵感'
