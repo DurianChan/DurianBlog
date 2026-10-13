@@ -1,0 +1,5 @@
+{{- $width := cond .IsNamedParams (.Get "width") (.Get 0) | default "200" -}}
+{{- $height := cond .IsNamedParams (.Get "height") (.Get 1) | default "220" -}}
+{{- $position := cond .IsNamedParams (.Get "position") (.Get 2) | default "left:12" -}}
+{{- $minwidth := cond .IsNamedParams (.Get "minwidth") (.Get 3) | default "1024px" -}}
+{{- partial "plugin/plugins-live2d.html" (dict "width" $width "height" $height "position" $position "minwidth" $minwidth) -}}

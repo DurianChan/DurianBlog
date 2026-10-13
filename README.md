@@ -113,3 +113,23 @@ giscus 使用当前仓库的 `Announcements` Discussion 分类。管理评论请
 背景和黑白文字参考 [Paper 演示站](https://hugo-paper.vercel.app/)（2026-10-13）：浅色背景 `#faf8f1`，深色背景为其叠加 85% 黑色后的 `#262524`，正文分别使用黑色和白色。使用 Paper 的系统无衬线字体栈，具体字形由设备已有字体决定，中文由浏览器自动回退；正文为 18px、1.8 倍行高。
 
 `assets/css/_override.scss` 定义配色及字体，`assets/css/_custom.scss` 定义排版细节，`static/css/giscus-paper-*.css` 为评论区提供对应配色。通过 FixIt 扩展点加载，未修改主题源码。若更换域名或部署路径，请同步更新 `hugo.toml` 中的 giscus 样式地址。
+
+## 网易云评论与 Live2D
+
+已安装 `shortcode-mmt-netease` 和 `hugo-shortcode-plugins-live2d`，源码版本记录在 `themes/COMPONENTS.md`。
+
+留言板已展示随机网易云评论，点击评论卡片可换一条，每 60 秒自动刷新；默认使用上游示例歌单。编辑 `content/guestbook/index.md` 中的 `mid` 可更换歌单 ID。也可以在任意 Markdown 页面插入（同一页面只使用一次）：
+
+```text
+{{< mmt-netease mid="2280569152" autoplay="false" >}}
+```
+
+默认只显示评论，音乐播放器需额外设置 `player="true"`，且依赖第三方 Meting 服务；其可用性及歌曲能否播放由外部服务决定。评论接口暂时不可用时，会显示重试提示。
+
+Live2D 已全站启用，位于桌面左下角，窄屏（小于 1024px）隐藏以避免遮挡文章。悬停时可切换模型、截图或关闭；关闭后可通过侧边“看板娘”按钮恢复。模型和运行库均从博客自身加载，不依赖外部模型 API。
+
+大小和位置在 `layouts/_partials/custom/live2d.html` 中配置。因已全站启用，无需再向文章插入 `plugins-live2d` 短代码；如以后改为单页启用，去掉 `hugo.toml` 的 `customPartials.assets` 中该项，再在页面中添加：
+
+```text
+{{< plugins-live2d width="200" height="220" position="left:12" >}}
+```

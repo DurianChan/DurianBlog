@@ -1,0 +1,7 @@
+  {{- $base := "live2d-widget/" | relURL -}}
+  <link rel="stylesheet" href="{{ $base }}waifu.css">
+  <link rel="stylesheet" href="{{ "css/live2d-blog.css" | relURL }}">
+  <div class="plugins-live2d-data" hidden data-width="{{ .width | default "200" }}" data-height="{{ .height | default "220" }}" data-position="{{ .position | default "left:12" }}" data-minwidth="{{ .minwidth | default "1024px" }}"></div>
+  <script defer src="{{ $base }}live2d.min.js"></script>
+  <script defer src="{{ $base }}waifu-tips.js"></script>
+  <script defer src="{{ "js/live2d-blog.js" | relURL }}" data-base="{{ $base }}"></script>

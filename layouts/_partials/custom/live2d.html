@@ -1,0 +1,3 @@
+{{- if not (.HasShortcode "plugins-live2d") -}}
+  {{- partial "plugin/plugins-live2d.html" (dict "width" "200" "height" "220" "position" "left:12" "minwidth" "1024px") -}}
+{{- end -}}

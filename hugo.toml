@@ -1,6 +1,6 @@
 baseURL = 'https://durianchan.github.io/DurianBlog/'
 title = 'DurianBlog'
-theme = 'fixit-release'
+theme = ['fixit-release', 'shortcode-mmt-netease', 'plugins-live2d']
 defaultContentLanguage = 'zh-cn'
 languageCode = 'zh-CN'
 languageName = '简体中文'
@@ -33,6 +33,7 @@ dark = '#262524'
 
 [params.customPartials]
 head = ['custom/favicon.html']
+assets = ['custom/live2d.html']
 
 [params.author]
 name = 'DurianChan'

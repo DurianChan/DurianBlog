@@ -1,0 +1,12 @@
+#waifu {
+  left: var(--blog-live2d-left, 12px);
+  right: var(--blog-live2d-right, auto);
+  z-index: 20;
+}
+#live2d {
+  width: var(--blog-live2d-width, 200px);
+  height: var(--blog-live2d-height, 220px);
+}
+#waifu-tips { width: 190px; margin: -25px 0; font-family: var(--fi-global-font-family); }
+#waifu-toggle { z-index: 20; }
+@media (max-width: 1023px) { #waifu, #waifu-toggle { display: none; } }

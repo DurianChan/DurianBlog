@@ -25,3 +25,10 @@ h1, h2, h3, .single .single-title {
 [data-theme='dark'] {
   --fi-secondary: var(--fi-global-font-secondary-color);
 }
+
+.comment-163 {
+  font-family: var(--fi-global-font-family);
+  color: var(--fi-global-font-color);
+  border-color: var(--fi-global-border-color);
+}
+.comment-content { white-space: pre-line; }
