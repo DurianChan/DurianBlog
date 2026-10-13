@@ -3,5 +3,6 @@ themes/FixIt/
 public/
 resources/_gen/
 .hugo_build.lock
+assets/jsconfig.json
 node_modules/
 .DS_Store
