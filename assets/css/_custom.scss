@@ -123,15 +123,14 @@ body:has(#global-music) {
   }
 }
 
-// 放大浮层
+// 放大浮层：使用不透明背景，避免正文透出干扰观察图表
 .dgm-zoom {
   position: fixed;
   inset: 0;
   z-index: 9999;
   display: flex;
   flex-direction: column;
-  background-color: rgba(0, 0, 0, 0.72);
-  backdrop-filter: blur(2px);
+  background-color: var(--fi-global-background-color);
 
   &[hidden] {
     display: none;
@@ -143,27 +142,28 @@ body:has(#global-music) {
   align-items: center;
   gap: 0.5rem;
   padding: 0.6rem 0.9rem;
-  color: #fff;
+  color: var(--fi-global-font-color);
   font-size: 0.875rem;
   font-family: var(--fi-global-font-family);
-  background-color: rgba(0, 0, 0, 0.35);
+  background-color: var(--fi-search-background-color);
+  border-bottom: 1px solid var(--fi-global-border-color);
   flex-wrap: wrap;
 
   button {
     min-width: 1.9rem;
     height: 1.9rem;
     padding: 0 0.5rem;
-    border: 1px solid rgba(255, 255, 255, 0.35);
+    border: 1px solid var(--fi-global-border-color);
     border-radius: 0.25rem;
-    color: #fff;
-    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--fi-global-font-color);
+    background-color: var(--fi-global-background-color);
     font: inherit;
     line-height: 1;
     cursor: pointer;
     transition: background-color 0.15s, border-color 0.15s;
 
     &:hover {
-      background-color: rgba(255, 255, 255, 0.22);
+      background-color: var(--fi-code-block-background-color);
     }
   }
 }
@@ -174,7 +174,7 @@ body:has(#global-music) {
 
 .dgm-zoom__hint {
   margin-left: auto;
-  color: rgba(255, 255, 255, 0.72);
+  color: var(--fi-secondary);
 }
 
 .dgm-zoom__stage {
@@ -183,6 +183,7 @@ body:has(#global-music) {
   overflow: hidden;
   cursor: grab;
   touch-action: none;
+  background-color: var(--fi-global-background-color);
 
   &:active {
     cursor: grabbing;
@@ -200,5 +201,6 @@ body:has(#global-music) {
     display: block;
     max-width: none;
     height: auto;
+    background-color: transparent;
   }
 }
