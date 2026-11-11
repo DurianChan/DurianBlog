@@ -33,7 +33,7 @@ dark = '#262524'
 
 [params.customPartials]
 head = ['custom/favicon.html']
-assets = ['custom/mascot.html']
+assets = ['custom/mascot.html', 'custom/diagram-zoom.html']
 widgets = ['custom/music.html']
 
 [params.music]
@@ -133,3 +133,17 @@ identifier = 'about'
 name = '关于'
 url = '/about/'
 weight = 5
+
+# 语法高亮交给主题自带的 Chroma 样式表（浅色 GitHub Light，深色自动切换）。
+# Hugo 默认 noClasses = true 会写死内联的 monokai 深色背景，
+# 而主题把 code 文字色设为 #000，导致浅色模式下代码块“黑底黑字”看不清。
+[markup]
+_merge = 'shallow'
+
+[markup.highlight]
+codeFences = true
+noClasses = false
+anchorLineNos = false
+guessSyntax = true
+lineNos = true
+lineNumbersInTable = true

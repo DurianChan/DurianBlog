@@ -54,3 +54,151 @@ body:has(#global-music) {
     bottom: 90px;
   }
 }
+
+
+// ---------------------------------------------------------------------------
+// Mermaid 图表放大查看（配合 layouts/_partials/custom/diagram-zoom.html）
+// ---------------------------------------------------------------------------
+.diagram-zoom-btn {
+  width: 1rem;
+  height: 1rem;
+  position: absolute;
+  top: 0.5rem;
+  right: 3rem;
+  line-height: 1;
+  padding: 0.5rem;
+  border: 1px solid #d1d9e0;
+  color: #25292e;
+  background-color: #f6f8fa;
+  box-shadow: 0 1px 0 0 rgba(31, 35, 40, 0.04);
+  user-select: none;
+  border-radius: 0.25rem;
+  z-index: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 0.25s, transform 0.25s, background-color 0.1s, border-color 0.1s;
+
+  [data-theme='dark'] & {
+    color: #d1d7e0;
+    border-color: #3d444d;
+    background-color: #2a313c;
+  }
+
+  &:hover {
+    background-color: #eff2f5;
+    [data-theme='dark'] & {
+      background-color: #2f3742;
+    }
+  }
+
+  @media print {
+    display: none !important;
+  }
+}
+
+// 触屏/窄屏：按钮常驻显示；宽屏：默认隐藏，悬停图表时淡入（与主题复制按钮一致）
+.diagram-container:hover .diagram-zoom-btn {
+  opacity: 1;
+  transform: scale(1);
+}
+
+@media (max-width: 1023.98px) {
+  .diagram-zoom-btn {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  .diagram-zoom-btn {
+    display: none;
+  }
+
+  .diagram-container:hover .diagram-zoom-btn {
+    display: flex;
+  }
+}
+
+// 放大浮层
+.dgm-zoom {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(2px);
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.dgm-zoom__bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0.9rem;
+  color: #fff;
+  font-size: 0.875rem;
+  font-family: var(--fi-global-font-family);
+  background-color: rgba(0, 0, 0, 0.35);
+  flex-wrap: wrap;
+
+  button {
+    min-width: 1.9rem;
+    height: 1.9rem;
+    padding: 0 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 0.25rem;
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.1);
+    font: inherit;
+    line-height: 1;
+    cursor: pointer;
+    transition: background-color 0.15s, border-color 0.15s;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.22);
+    }
+  }
+}
+
+.dgm-zoom__zoom-value {
+  min-width: 4rem;
+}
+
+.dgm-zoom__hint {
+  margin-left: auto;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.dgm-zoom__stage {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  cursor: grab;
+  touch-action: none;
+
+  &:active {
+    cursor: grabbing;
+  }
+}
+
+.dgm-zoom__canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: 0 0;
+  will-change: transform;
+
+  svg {
+    display: block;
+    max-width: none;
+    height: auto;
+  }
+}

@@ -1,0 +1,231 @@
+<script>
+(function () {
+  'use strict';
+  if (window.__diagramZoom) return;
+  window.__diagramZoom = true;
+
+  var MIN_SCALE = 0.2;
+  var MAX_SCALE = 20;
+  var overlay = null;
+  var stage = null;
+  var canvas = null;
+  var zoomLabel = null;
+  var state = { scale: 1, tx: 0, ty: 0, w: 0, h: 0 };
+  var lastFocus = null;
+
+  function pickSvg(container) {
+    var pres = container.querySelectorAll('pre.mermaid, pre.mermaid-dark, pre.mermaid-neutral');
+    var fallback = null;
+    for (var i = 0; i < pres.length; i++) {
+      var svg = pres[i].querySelector('svg');
+      if (!svg) continue;
+      if (!fallback) fallback = svg;
+      var r = pres[i].getBoundingClientRect();
+      if (r.height > 1 && r.width > 1) return svg;
+    }
+    return fallback;
+  }
+
+  function applyTransform() {
+    canvas.style.transform =
+      'translate(' + state.tx + 'px,' + state.ty + 'px) scale(' + state.scale + ')';
+    if (zoomLabel) zoomLabel.textContent = Math.round(state.scale * 100) + '%';
+  }
+
+  function fitToStage() {
+    if (!stage) return;
+    var rect = stage.getBoundingClientRect();
+    var pad = 24;
+    var ow = Math.max(rect.width - pad * 2, 100);
+    var oh = Math.max(rect.height - pad * 2, 100);
+    var s = Math.min(ow / state.w, oh / state.h, 1);
+    state.scale = s;
+    state.tx = pad + (ow - state.w * s) / 2;
+    state.ty = pad + (oh - state.h * s) / 2;
+    applyTransform();
+  }
+
+  function zoomAt(factor, cx, cy) {
+    var next = Math.min(MAX_SCALE, Math.max(MIN_SCALE, state.scale * factor));
+    if (next === state.scale) return;
+    var k = next / state.scale;
+    state.tx = cx - (cx - state.tx) * k;
+    state.ty = cy - (cy - state.ty) * k;
+    state.scale = next;
+    applyTransform();
+  }
+
+  function ensureOverlay() {
+    if (overlay) return;
+    overlay = document.createElement('div');
+    overlay.className = 'dgm-zoom';
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+    overlay.setAttribute('aria-label', '图表放大查看');
+    overlay.hidden = true;
+    overlay.innerHTML =
+      '<div class="dgm-zoom__bar">' +
+        '<button type="button" data-act="out" aria-label="缩小">−</button>' +
+        '<button type="button" data-act="reset" aria-label="恢复 100%" title="恢复 100%"><span class="dgm-zoom__zoom-value">100%</span></button>' +
+        '<button type="button" data-act="in" aria-label="放大">+</button>' +
+        '<button type="button" data-act="fit" aria-label="适应屏幕" title="适应屏幕">适应</button>' +
+        '<span class="dgm-zoom__hint">滚轮缩放 · 拖动平移 · 双击复位 · Esc 关闭</span>' +
+        '<button type="button" data-act="close" aria-label="关闭">✕</button>' +
+      '</div>' +
+      '<div class="dgm-zoom__stage"><div class="dgm-zoom__canvas"></div></div>';
+    document.body.appendChild(overlay);
+
+    stage = overlay.querySelector('.dgm-zoom__stage');
+    canvas = overlay.querySelector('.dgm-zoom__canvas');
+    zoomLabel = overlay.querySelector('.dgm-zoom__zoom-value');
+
+    overlay.addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-act]');
+      if (btn) {
+        var act = btn.getAttribute('data-act');
+        if (act === 'close') { close(); return; }
+        if (act === 'fit') { fitToStage(); return; }
+        var rect = stage.getBoundingClientRect();
+        var cx = rect.width / 2;
+        var cy = rect.height / 2;
+        if (act === 'in') zoomAt(1.25, cx, cy);
+        if (act === 'out') zoomAt(1 / 1.25, cx, cy);
+        if (act === 'reset') { state.scale = 1; applyTransform(); }
+        return;
+      }
+      if (e.target === stage || e.target === canvas) close();
+    });
+
+    stage.addEventListener('wheel', function (e) {
+      e.preventDefault();
+      var rect = stage.getBoundingClientRect();
+      var factor = e.deltaY < 0 ? 1.15 : 1 / 1.15;
+      zoomAt(factor, e.clientX - rect.left, e.clientY - rect.top);
+    }, { passive: false });
+
+    var dragging = false;
+    var originX = 0;
+    var originY = 0;
+    var startTx = 0;
+    var startTy = 0;
+
+    stage.addEventListener('pointerdown', function (e) {
+      if (e.target.closest('[data-act]')) return;
+      dragging = true;
+      originX = e.clientX;
+      originY = e.clientY;
+      startTx = state.tx;
+      startTy = state.ty;
+      stage.setPointerCapture(e.pointerId);
+    });
+    stage.addEventListener('pointermove', function (e) {
+      if (!dragging) return;
+      state.tx = startTx + (e.clientX - originX);
+      state.ty = startTy + (e.clientY - originY);
+      applyTransform();
+    });
+    function endDrag(e) {
+      if (!dragging) return;
+      dragging = false;
+      try { stage.releasePointerCapture(e.pointerId); } catch (err) {}
+    }
+    stage.addEventListener('pointerup', endDrag);
+    stage.addEventListener('pointercancel', endDrag);
+
+    stage.addEventListener('dblclick', function (e) {
+      if (e.target.closest('[data-act]')) return;
+      fitToStage();
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (overlay.hidden) return;
+      if (e.key === 'Escape') { e.preventDefault(); close(); }
+      if (e.key === '+' || e.key === '=') zoomAt(1.25, stage.clientWidth / 2, stage.clientHeight / 2);
+      if (e.key === '-') zoomAt(1 / 1.25, stage.clientWidth / 2, stage.clientHeight / 2);
+    });
+  }
+
+  function open(svg) {
+    ensureOverlay();
+    lastFocus = document.activeElement;
+    var vb = svg.viewBox && svg.viewBox.baseVal;
+    var box = svg.getBoundingClientRect();
+    var w = (vb && vb.width) ? vb.width : (box.width || 800);
+    var h = (vb && vb.height) ? vb.height : (box.height || 600);
+    state.w = w;
+    state.h = h;
+
+    var clone = svg.cloneNode(true);
+    clone.removeAttribute('style');
+    clone.setAttribute('width', w);
+    clone.setAttribute('height', h);
+    canvas.replaceChildren(clone);
+
+    overlay.hidden = false;
+    document.body.style.overflow = 'hidden';
+    requestAnimationFrame(fitToStage);
+
+    var closeBtn = overlay.querySelector('[data-act="close"]');
+    if (closeBtn) closeBtn.focus();
+  }
+
+  function close() {
+    if (!overlay || overlay.hidden) return;
+    overlay.hidden = true;
+    canvas.replaceChildren();
+    document.body.style.overflow = '';
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  function addButton(container) {
+    if (container.querySelector('.diagram-zoom-btn')) return;
+    if (!pickSvg(container)) return;
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'diagram-zoom-btn';
+    btn.setAttribute('aria-label', '放大查看图表');
+    btn.title = '放大查看';
+    btn.innerHTML = '<i class="fa-solid fa-expand" aria-hidden="true"></i>';
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var svg = pickSvg(container);
+      if (svg) open(svg);
+    });
+    container.appendChild(btn);
+
+    // 双击图表本身也能放大，触屏用户不必去找按钮
+    container.addEventListener('dblclick', function (e) {
+      if (e.target.closest('.diagram-zoom-btn')) return;
+      var svg = pickSvg(container);
+      if (!svg) return;
+      e.preventDefault();
+      open(svg);
+    });
+  }
+
+  function scan() {
+    var containers = document.querySelectorAll('.diagram-container');
+    for (var i = 0; i < containers.length; i++) addButton(containers[i]);
+  }
+
+  function start() {
+    if (!document.querySelector('.diagram-container')) return;
+    scan();
+    var mo = new MutationObserver(function () {
+      if (!document.querySelector('.diagram-container svg')) return;
+      scan();
+    });
+    mo.observe(document.body, { childList: true, subtree: true });
+    window.addEventListener('resize', function () {
+      if (overlay && !overlay.hidden) fitToStage();
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', start);
+  } else {
+    start();
+  }
+})();
+</script>
