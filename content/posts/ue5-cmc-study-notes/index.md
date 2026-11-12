@@ -3348,7 +3348,7 @@ Mesh->SetRelativeLocationAndRotation(NewRelTranslation, NewRelRotation, false, n
 | 服务器时间戳复制 | 会同步 `ReplicatedServerLastTransformUpdateTimeStamp`      | 默认不同步，值为 0                                               |
 | 默认       | 否                                                       | 是（`CharacterMovementComponent.cpp:708`）                    |
 
-# 7 学习资料
+# 7 参考资料
 
 - [《Exploring in UE4》移动组件详解[原理分析]（2019.7.14更新） - 知乎](https://zhuanlan.zhihu.com/p/34257208)
 - [【UE角色移动相关】 窥见一隅，UE移动组件上的网络同步 - 知乎](https://zhuanlan.zhihu.com/p/694601656)
