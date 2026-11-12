@@ -12,7 +12,7 @@ tags:
   - 网络同步
 ---
 
-# 1 `UpdatedComponent`
+# 1 UpdatedComponent
 
 UE中角色移动的本质是修改某个特定组件的坐标位置。例如在`Character`中，通常将`CapsuleComponent`作为根组件，那么`Character`的坐标本质上就是`RootComponent`的坐标，其他组件都会跟随根组件而移动。
 
@@ -36,7 +36,7 @@ MovementComponent->UpdatedComponent = CollisionComponent;
 VehicleMovementComponent->UpdatedComponent = Mesh;
 ```
 
-## 1.1 为什么`UpdatedComponent`必须是`USceneComponent`
+## 1.1 为什么UpdatedComponent必须是USceneComponent
 
 因为移动的本质就是修改 Transform，而只有 `USceneComponent` 才有 `ComponentTransform`，并且提供 `MoveComponent()`。如果 `UpdatedComponent` 是一个 `UActorComponent`（没有坐标），移动逻辑就无法进行计算。
 
@@ -45,7 +45,7 @@ VehicleMovementComponent->UpdatedComponent = Mesh;
 移动组件类一共有四个，它们分别对应实现了不同的功能，另外还有一个`UProjectileMovementComponent`用于模拟抛射物的运动状态移动组件。
 ![移动组件继承链](photo/inheritance-chain.png)
 
-## 2.1 `UMovementComponent`
+## 2.1 UMovementComponent
 
 提供了基本的移动接口，如`SafeMoveUpdatedComponent`、`MoveUpdatedComponent`，最终会调用到`UpdateComponent`组件的接口进行更新位置。
 
@@ -61,11 +61,11 @@ bool UMovementComponent::MoveUpdatedComponentImpl( const FVector& Delta, const F
 }
 ```
 
-## 2.2 `UNavMovementComponent`
+## 2.2 UNavMovementComponent
 
 该组件更多的是提供给AI寻路的能力，同时包括基本的移动状态，比如是否能游泳，是否能飞行等，向导航系统提供代理信息。
 
-## 2.3 `UPawnMovementComponent`
+## 2.3 UPawnMovementComponent
 
 `UPawnMovementComponent`提供了`AddInputVector`，可以实现接收玩家的输入并根据输入值修改所控制`Pawn`的位置。要注意的是，在UE中，`Pawn`是一个可控制的游戏角色（也可以是被AI控制），他的移动必须与`UPawnMovementComponent`配合才行。
 
@@ -95,7 +95,7 @@ FVector APawn::Internal_ConsumeMovementInputVector()
 }
 ```
 
-## 2.4 `UCharacterMovementComponent`
+## 2.4 UCharacterMovementComponent
 
 处理了各种常见的移动状态细节，实现了比较流畅的同步解决方案。各种位置校正，平滑处理才达到了目前的移动效果。
 
@@ -253,7 +253,7 @@ flowchart TD
 
 在移动组件中，通过`FFindFloorResult CurrentFloor`来缓存记录地面信息。移动组件就会根据配置设置默认的`MovementMode`，`ACharacter::Restart`、`APawn::Restart`会覆盖这个缓存数据。首先在`PhysWalking`中调用`FindFloor`找到地面。
 
-### 4.2.1 `FindFloor`流程
+### 4.2.1 FindFloor流程
 
 **`FindFloor`本质是通过胶囊Sweep检测**找到脚下地面：
 
@@ -282,7 +282,7 @@ Sweep用的是胶囊体而不是射线检测，方便处理斜面移动，计算
 目前`Character`的移动是基于胶囊体实现的，所以一个不带胶囊体组件的Actor是无法正常使用`UCharacterMovementComponent`的。
 ![胶囊体接触法线与冲击法线示意](photo/capsule-contact-normal.png)
 
-### 4.2.2 `PerchRadiusThreshold`：为什么"找到地面 ≠ 能站住"
+### 4.2.2 PerchRadiusThreshold：为什么"找到地面 ≠ 能站住"
 
 `PerchRadiusThreshold`，即可站立半径。默认这个值为0，移动组件会忽略这个可站立半径的相关计算，一旦这个值大于0.15，就会做进一步的判断看看当前的地面空间是否足够让玩家站立在上面。
 
@@ -704,7 +704,7 @@ void ACharacter::StopJumping()
 
 `Jump()` 并不会立刻让角色起跳，它只是把“玩家想跳”写入 `bPressedJump`，真正的起跳发生在下一帧的移动处理中。
 
-### 4.4.2 按键响应与 `CheckJumpInput`
+### 4.4.2 按键响应与 CheckJumpInput
 
 `TickComponent` 在自主端分支调用 `ControlledCharacterMove`，跳跃检测就在这个函数里完成：
 
@@ -756,7 +756,7 @@ void ACharacter::CheckJumpInput(float DeltaTime)
 }
 ```
 
-#### 4.4.2.1 执行 `CanJump`
+#### 4.4.2.1 执行 CanJump
 
 `CanJump` 内部是蓝图可重写的 `CanJumpInternal`，实际判定集中在 `JumpIsAllowedInternal`：
 
@@ -810,7 +810,7 @@ bool UCharacterMovementComponent::CanAttemptJump() const
 
 `JumpMaxHoldTime` 表示一次跳跃可以持续施加跳跃力的最长时间，超过后跳跃力停止；`JumpMaxCount` 表示允许跳跃的段数，两者共同决定角色能跳多高、跳几次。
 
-#### 4.4.2.2 执行 `DoJump`
+#### 4.4.2.2 执行 DoJump
 
 ```cpp
 bool UCharacterMovementComponent::DoJump(bool bReplayingMoves, float DeltaTime)
@@ -845,7 +845,7 @@ bool UCharacterMovementComponent::DoJump(bool bReplayingMoves, float DeltaTime)
 - `JumpZVelocity` 在编辑器中限制为非负值，实际使用时只增不减。
 - 最后调用 `SetMovementMode(MOVE_Falling)` 进入下落状态。
 
-#### 4.4.2.3 判断 `bDidJump`
+#### 4.4.2.3 判断 bDidJump
 
 ```cpp
 const bool bDidJump = CanJump() && CharacterMovement->DoJump(bClientUpdating);
@@ -875,7 +875,7 @@ if (CharacterOwner->JumpForceTimeRemaining > 0.0f)
 }
 ```
 
-### 4.4.3 `PerformMovement` 结束后的 `ClearJumpInput`
+### 4.4.3 PerformMovement 结束后的 ClearJumpInput
 
 `PerformMovement` 在移动计算完成后调用 `ClearJumpInput`：
 
@@ -1813,7 +1813,7 @@ BrakingDecelerationFlying = 0.f;
 BrakingFrictionFactor = 2.0f;
 ```
 
-# 5 `FScopedMovementUpdate` 延迟更新优化
+# 5 FScopedMovementUpdate 延迟更新优化
 
 `FScopedMovementUpdate` 不是一个移动状态，而是一个用于优化移动的作用域类。读引擎代码时，经常能看到移动逻辑被一对大括号包住，并在其中构造一个作用域对象：
 
@@ -2515,7 +2515,7 @@ for (int32 i = 0; i < ClientData->SavedMoves.Num(); i++)
 
 回放前备份跳跃、下蹲、根运动等状态（8531–8541），回放后恢复（8582–8601），避免重放污染本帧输入。这样一次校正的完整闭环就结束了：服务器定位置，客户端从服务器位置开始，把还没被确认的移动重新跑一遍。
 
-### 6.2.1 `SavedMoves` 与移动合并
+### 6.2.1 SavedMoves 与移动合并
 
 除了 `ServerMove`，还会看到 `ServerMoveDual`、`ServerMoveOld`，以及 `SavedMoves`、`PendingMove`、`FreeMoves` 几个列表。这些属于移动带宽优化的手段，把没有意义的移动合并，减少消息发送量。
 
@@ -3084,7 +3084,7 @@ void UCharacterMovementComponent::SmoothClientPosition(float DeltaSeconds)
 
 客户端的模拟流程到此为止。接收服务器数据并修正的入口是 `ACharacter::PostNetReceiveLocationAndRotation`，它调用 `SmoothCorrection` 把胶囊体直接放到服务器位置，同时把旧位置到新位置的差累加到 `MeshTranslationOffset` 上。平滑完成后，视觉上的 Mesh 才回到胶囊体原点。
 
-### 6.3.1 `SmoothCorrection`
+### 6.3.1 SmoothCorrection
 
 `SmoothCorrection` 做了什么?
 
