@@ -1,7 +1,7 @@
 ---
 title: "UE5.7 相机系统学习笔记"
 date: 2026-11-12T19:20:00+08:00
-draft: true
+draft: false
 description: "UE5.7 相机系统源码学习笔记：POV 结构与每帧重建、World Tick 里的相机更新时机、CameraComponent / CameraActor / PlayerCameraManager / PlayerController 的关系、两种摄像机更新方案，以及 CameraModifier 的调用流程与 CameraShake 实例。"
 categories:
   - UE
