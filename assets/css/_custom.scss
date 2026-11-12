@@ -7,18 +7,11 @@ h1, h2, h3, .single .single-title {
   font-weight: 600;
 }
 
-// Make homepage excerpts easier to read while keeping titles prominent.
+// 首页文章列表不显示摘要，只保留标题、元信息和「阅读全文」。
+// 主题没有提供开关（summary.html 里是无条件渲染 .content），
+// 这里用样式隐藏；摘要仍保留在 HTML 中，利于搜索引擎收录。
 .home.posts .summary .content {
-  color: rgba(#000, .75);
-
-  [data-theme='dark'] & {
-    color: rgba(#fff, .8);
-  }
-
-  b,
-  strong {
-    color: inherit;
-  }
+  display: none;
 }
 
 .single .content {
